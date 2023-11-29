@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <style>
+        /* Add margin and adjust position for carousel control buttons */
+        .carousel-control-prev,
+        .carousel-control-next {
+            margin-top: -50px;
+            
+        }
+        .carousel-control-prev-icon,
+    .carousel-control-next-icon {
+        background-color: #000000; /* Set the background color to black */
+        border: 1px solid #000000;
+    }
+
+        /* Add margin to the carousel indicators */
+        .carousel-indicators {
+            bottom: -40px; 
+        }
+
+        /* Add spacing between carousel buttons and cards */
+        .carousel-item {
+            margin-bottom: 20px; 
+        }
+        #notificationsDropdown + .dropdown-menu {
+        right: 0;
+        left: auto;
+    }
+    #autocomplete-container {
+    position: absolute;
+    top: 100%; /* Position it below the search bar */
+    left: 0;
+    width: 10px; /* Set the desired width */
+    z-index: 1000; /* Set a higher z-index to ensure it appears above other elements */
+}
+
+/* Ensure the search bar stays at the top */
+#searchInput {
+    z-index: 999; /* Set a z-index to ensure it stays above other elements */
+}
+    </style>
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">SOI Learning Portal</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            Courses
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <li><a class="dropdown-item" href="#">HTML</a></li>
+                            <li><a class="dropdown-item" href="#">CSS</a></li>
+                            <li><a class="dropdown-item" href="#">PHP</a></li>
+                            <li><a class="dropdown-item" href="#">JavaScript</a></li>
+                            <li><a class="dropdown-item" href="#">Python</a></li>
+                            <li><a class="dropdown-item" href="#">Java</a></li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">iOS</a></li>
+                            <li><a class="dropdown-item" href="#">React</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Contact</a>
+                    </li>
+                </ul>
+                <div id="autocomplete-container"></div>
+                <form class="d-flex">
+                    <input id="searchInput" class="form-control me-2" type="search" placeholder="Search"
+                        aria-label="Search" autocomplete="off">
+                    <button class="btn btn-primary" type="submit">Search</button>
+                </form>
+                <script src="tags.js"></script>
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="notificationsDropdown" role="button"
+                            data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-bell" style="color: #ffffff;"></i>
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="notificationsDropdown" >
+                            <!-- Example unread message -->
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span class="fw-bold">Unread Message</span>
+                                    <p>This is an unread message.</p>
+                                </a>
+                            </li>
+                            <!-- Example read message -->
+                            <li>
+                                <a class="dropdown-item" href="#">
+                                    <span class="text-muted">Read Message</span>
+                                    <p>This is a read message.</p>
+                                </a>
+                            </li>
+                            <li class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">View All Messages</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <div class="icon-circle" id="avatar" style=" background-color: green;">
+                            <a class="nav-link" href="#">
+                                <i class="fas fa-user" style="color: #ffffff;"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid bg-dark shadow-lg">
+        <!-- Add a container here for responsiveness -->
+        <div class="container text-center ">
+            <!-- Add a row here that will contain 2 columns -->
+            <div class="row text-light pt-5">
+                <!-- Add a column here for text -->
+                <div class="col-sm-7 pb-5">
+                    <!-- Add a heading element here https://getbootstrap.com/docs/5.1/content/typography -->
+                    <h2 class=" ps-2">Welcome to SOI Learning Portal</h2>
+                    <!-- Add a paragraph of text here https://getbootstrap.com/docs/5.1/content/typography/#lead -->
+                    <p class="lead ps-2 ">
+                        Expertly crafted courses that best fit your learning needs and preferences.
+                    </p>
+                    <!-- Add a button here https://getbootstrap.com/docs/5.1/components/buttons -->
+                    <button type="button" class="btn btn-outline-primary ms-2">Browse Courses</button>
+                    <button type="button" class="btn btn-outline-primary ms-2">Be an Instructor</button>
+                </div>
+                <!-- Add a column here for the image -->
+                <div class="col sm-5">
+                    <img class="img-fluid " src="pic/tech.jpg" alt="shadow" height="900px;" weight="200px;">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container-fluid bg-secondary text-white">
+        <div class="row">
+            <div class="col-sm-4">
+                <div class="icon-text-container d-flex align-items-center">
+                    <div class="icon-circle2 me-2">
+                        <i class="fa-solid fa-book fa-2x"></i>
+                    </div>
+                    <div>
+                        <h3 class="sm-2">158 online courses</h3>
+                        <p class="card-text">Enjoy a variety of fresh topics</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="icon-text-container d-flex align-items-center">
+                    <div class="icon-circle2 me-2">
+                        <i class="fa-solid fa-computer fa-2x"></i>
+                    </div>
+                    <div>
+                        <h3 class="sm-2">Expert instruction</h3>
+                        <p class="card-text">Find the right instructor for you</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4">
+                <div class="icon-text-container d-flex align-items-center">
+                    <div class="icon-circle2 me-2">
+                        <i class="fa fa-clock-rotate-left fa-2x"></i>
+                    </div>
+                    <div>
+                        <h3 class="sm-2">Lifetime access</h3>
+                        <p class="card-text">Learn on your schedule</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <h1>Featured Courses</h1>
+    <br>
+    <div id="cardCarousel" class="carousel slide" data-bs-ride="carousel" >
+        <div class="carousel-inner" >
+            <!-- First set of 4 cards -->
+            <div class="carousel-item active" >
+                <div class="row">
+                    <div class="container" >
+                        <div class="row" style="padding-left: 200px;" >
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/python-logo.jpg" alt="Card image" height="230px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Python</h4>
+                                            <p class="card-text">3h 30m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal1">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Ashia Zain
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/sec.jpg" alt="Card image" height="230px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">IT security</h4>
+                                            <p class="card-text">4h 45m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal2">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Jean Lim
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/crypto.jpg" alt="Card image" height="230px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Cryptography</h4>
+                                            <p class="card-text">3h 10m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal3">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Jason Lim
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px; ">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/unity.jpg" alt="Card image" height="230px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Unity</h4>
+                                            <p class="card-text">5h 45m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal3">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Kong Chee Chong
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Second set of 4 cards -->
+            <div class="carousel-item">
+                <div class="row">
+                    <div class="container">
+                        <div class="row" style="padding-left: 200px;">
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/html.jpg" alt="Card image" height="200px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Introduction to HTML and CSS</h4>
+                                            <p class="card-text">2h 30m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal1">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Hannah Lim
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/ui.jpg" alt="Card image" height="200px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">User Experience and Interface Design</h4>
+                                            <p class="card-text">2h 45m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal2">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Julia Lee
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/ios.png" alt="Card image" height="170px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">iOS App Development using Xcode and Swift</h4>
+                                            <p class="card-text">4h 30m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal3">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Ryan Low
+                                            <a href="#"  style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="width:300px;">
+                                <div class="card">
+                                    <img class="card-img-top" src="pic/FE.png" alt="Card image" height="200px;"
+                                        weight="50px;">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            <h4 class="card-title">Front-end JavaScript Frameworks</h4>
+                                            <p class="card-text">3h 45m</p>
+                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                data-bs-target="#myModal3">
+                                                VIEW DETAILS
+                                            </button>
+                                        </div>
+                                        <div class="card-footer bg-secondary ">
+                                            Azhar Kamar
+                                            <a href="#" id="bookmarkButton" data-bs-toggle="offcanvas"
+                                                data-bs-target="#bookmarkOffcanvas" style="color: white;">
+                                                <i class='bx bxs-bookmark' data-bs-toggle="tooltip"
+                                                    title="Add to Bookmarks"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Offcanvas container -->
+                                        <div class="offcanvas offcanvas-bottom" tabindex="-1" id="bookmarkOffcanvas"
+                                            aria-labelledby="bookmarkOffcanvasLabel">
+                                            <div class="offcanvas-header">
+                                                <h5 class="offcanvas-title" id="bookmarkOffcanvasLabel">Bookmarks</h5>
+                                                <button type="button" class="btn-close text-reset"
+                                                    data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                            </div>
+                                            <div class="offcanvas-body">
+                                                <div class="col-md-3">
+                                                    <div class="card">
+                                                        <img class="card-img-top" src="pic/FE.png" alt="Card image" height="200px;"
+                                                            weight="50px;">
+                                                        <div class="card bg-dark text-white">
+                                                            <div class="card-body">
+                                                                <h4 class="card-title">Front-end JavaScript Frameworks</h4>
+                                                                <p class="card-text">3h 45m</p>
+                                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                                                    data-bs-target="#myModal3">
+                                                                    VIEW DETAILS
+                                                                </button>
+                                                            </div>
+                                                            <div class="card-footer bg-secondary ">
+                                                                Azhar Kamar
+                                                                <a href="#" id="bookmarkButton" data-bs-toggle="offcanvas"
+                                                                    data-bs-target="#bookmarkOffcanvas" style="color: white;">
+                                                                    <i class='bx bxs-bookmark' data-bs-toggle="tooltip"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+        <!-- end -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#cardCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#cardCarousel" data-bs-slide="next" >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+<!-- Offcanvas container -->
+<div class="offcanvas offcanvas-bottom" tabindex="-1" id="bookmarkOffcanvas"
+aria-labelledby="bookmarkOffcanvasLabel">
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="bookmarkOffcanvasLabel">Bookmarks</h5>
+    <button type="button" class="btn-close text-reset"
+        data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+    <div class="col-md-3 sol-sm-6">
+        <div class="card" style="width:300px; height: 300px;">
+            <img class="card-img-top" src="image"
+                alt="Card image" style="width:100%">
+            <div class="card-body">
+                <h4 class="card-title">App Development</h4>
+                <p class="card-text">Some example text for the different
+                    Programming Courses
+                    offered</p>
+                <div class="card-footer"> Instructor:
+                    Nicholas <a><i class='bx bxs-bookmark'
+                            data-bs-toggle="tooltip"
+                            title="Add to Bookmarks"></i></a></div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+    <footer class="bg-secondary text-center text-white">
+        <p>
+            © 2021 SOI Learning Portal. All Rights Reserved.<br>
+            <br>
+            <a class=" text-white" href="#">Privacy</a>
+            <a class=" text-white" href="#">Terms</a>
+            <a class=" text-white" href="#">Feedback</a>
+            <a class=" text-white" href="#">Support</a>
+        </p>
+    </footer>
+</body>
+
+</html>
